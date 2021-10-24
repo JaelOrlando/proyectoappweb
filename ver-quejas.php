@@ -123,7 +123,7 @@ function verQuejasAdministrador($con)
                                         } ?>
                                         <div class="in-line mx-auto mt-3">
                                             <a href="responder.php?id=<?php echo $queja_id ?>" class="btn btn-success">Responder</a>
-                                            <!--<a href="descartar.php?id=<?php echo $queja_id ?>" class="btn btn-danger">Descartar</a>-->
+                                            <!--<a href="descartar.php?id=<?php #echo $queja_id ?>" class="btn btn-danger">Descartar</a>-->
                                         </div>
                                     </div>
                                     <div class="card-footer text-dark  bg-secondary">
@@ -193,7 +193,7 @@ function verQuejasAdministrador($con)
                                             <?php if ($estado == 2) {
                                                 if ($usuario_id == 2) {?>
                                                     <a class="btn btn-warning disabled">Usuario Anonimo</a>
-                                                <?php }if($filtro_id == 2) {?>
+                                                <?php }if($filtro_id == 2 && $estado == 2) {?>
                                                     <a class="btn btn-warning disabled">Queja descartada</a>
                                             <?php }} else { ?>
                                                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#respuesta<?php echo $queja_id ?>">

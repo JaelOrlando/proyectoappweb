@@ -3,14 +3,11 @@ $title = "Usuarios";
 require_once 'includes/header.php';
 require_once 'db/conexion.php';
 
-
-
 if (!isset($_SESSION['admin'])) {
     echo "<h1 class='text-danger'>Por favor inicia sesión</h1>";
 } else {
 
 ?>
-
     <div class="h1 text-center text-primary">
         USUARIOS REGISTRADOS
     </div>
@@ -19,7 +16,7 @@ if (!isset($_SESSION['admin'])) {
         <?php
         $query = mysqli_query($con, "SELECT * FROM usuarios where tipo_usuario_id = 2;");
         while ($row = mysqli_fetch_array($query)) {
-            $usuario_id =$row['usuario_id'];
+            $usuario_id = $row['usuario_id'];
             $nombre = $row['nombre'];
             $paterno = $row['paterno'];
             $materno = $row['materno'];
@@ -48,73 +45,6 @@ if (!isset($_SESSION['admin'])) {
                 </div>
             </div>
         <?php } ?>
-        <!--
-        <div class="col-3 my-3 mx-1 ">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Usuario 2</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">email@mail.com</h6>
-                    <p class="card-text">Telefono</p>
-                    <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo 1 ?>" class="btn btn-danger rounded-pill">Delete</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-3 my-3 mx-1 ">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Usuario 3</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">email@mail.com</h6>
-                    <p class="card-text">Telefono</p>
-                    <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo 1 ?>" class="btn btn-danger rounded-pill">Delete</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-3 my-3 mx-1 ">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Usuario 4</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">email@mail.com</h6>
-                    <p class="card-text">Telefono</p>
-                    <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo 1 ?>" class="btn btn-danger rounded-pill">Delete</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-3 my-3 mx-1 ">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Usuario 5</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">email@mail.com</h6>
-                    <p class="card-text">Telefono</p>
-                    <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo 1 ?>" class="btn btn-danger rounded-pill">Delete</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-3 my-3 mx-1 ">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Usuario 6</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">email@mail.com</h6>
-                    <p class="card-text">Telefono</p>
-                    <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo 1 ?>" class="btn btn-danger rounded-pill">Delete</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-3 my-3 mx-1">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Usuario 7</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">email@mail.com</h6>
-                    <p class="card-text">Telefono</p>
-                    <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo 1 ?>" class="btn btn-danger rounded-pill">Delete</a>
-
-                </div>
-            </div>
-        </div>-->
     </div>
 <?php
 }
