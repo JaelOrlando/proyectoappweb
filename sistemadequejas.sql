@@ -89,5 +89,19 @@ begin
 insert into usuarios (usuario, nombre, paterno, materno, email, telefono, contraseña, tipo_usuario_id) values (usuario, nombre, paterno, materno, email, telefono, contraseña, tipo_usuario_id);
 end;
 //
+
+create trigger insertarUsuario
+before insert on usuarios
+for each row
+begin
+set NEW.tipo_usuario_id = 2;
+end;
+
+create procedure agregarQueja(in asunto varchar(64), in queja varchar(512), in filtro_id int, in imagen_id int, in estado_id int, in usuario_id int, in tipo_usuario_id int)
+begin
+insert into quejas (asunto, queja, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id) values (asunto, queja, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id);
+end;
+//
+
 delimiter ;
 
