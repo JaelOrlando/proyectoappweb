@@ -14,7 +14,7 @@ if (!isset($_SESSION['admin'])) {
 
     <div class="row justify-content-around">
         <?php
-        $query = mysqli_query($con, "SELECT * FROM usuarios where tipo_usuario_id = 2;");
+        $query = mysqli_query($con, "SELECT * FROM usuarios u inner join tipos_usuario t on u.tipo_usuario_id = t.tipo_usuario_id where tipo_usuario = 'Usuario'");
         while ($row = mysqli_fetch_array($query)) {
             $usuario_id = $row['usuario_id'];
             $nombre = $row['nombre'];
@@ -23,10 +23,7 @@ if (!isset($_SESSION['admin'])) {
             $email = $row['email'];
             $telefono = $row['telefono'];
             $tipo = $row['tipo_usuario_id'];
-            $query2 = mysqli_query($con, "SELECT tipo_usuario FROM tipos_usuario where tipo_usuario_id = $tipo");
-            while ($row2 = mysqli_fetch_array($query2)) {
-                $tipo_usuario = $row2['tipo_usuario'];
-            }
+            $tipo_usuario = $row['tipo_usuario'];
         ?>
             <div class="col-3 my-3 mx-1 ">
                 <div class="card" style="width: 18rem;">
