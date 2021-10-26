@@ -43,7 +43,7 @@ require_once 'db/conexion.php';
 
 <?php }
 
-$query = mysqli_query($con, "SELECT * FROM quejas ORDER BY queja_id DESC");
+$query = mysqli_query($con, "SELECT * FROM quejas q INNER JOIN usuarios u on q.usuario_id = u.usuario_id INNER JOIN imagenes i on q.imagen_id = i.imagen_id WHERE q.eliminado = 0 ORDER BY queja_id DESC");
 if (!isset($_SESSION['admin'])) { ?>
 
 
@@ -52,45 +52,39 @@ if (!isset($_SESSION['admin'])) { ?>
             <div class="text-center h3" style="color: red;">
                 <p>No hay Quejas</p>
             </div>
-        <?php } else { ?>
-            <?php while ($row = mysqli_fetch_array($query)) {
+            <?php } else {
+            while ($row = mysqli_fetch_array($query)) {
                 $usuario_id = $row['usuario_id'];
                 $asunto = $row['asunto'];
                 $queja = $row['queja'];
                 $imagen_id = $row['imagen_id'];
-                $query2 = mysqli_query($con, "SELECT nombre FROM usuarios where usuario_id = '$usuario_id'");
-                while ($row2 = mysqli_fetch_array($query2)) {
-                    $nombre = $row2['nombre'];
-                }
-                $query3 = mysqli_query($con, "SELECT * FROM imagenes where imagen_id = $imagen_id"); ?>
+                $nombre = $row['nombre'];
+                $imagen1 = $row['imagen1'];
+                $imagen2 = $row['imagen2'];
+                $imagen3 = $row['imagen3'];
+                $imagen4 = $row['imagen4'];
+                $imagen5 = $row['imagen5'];
+                $imagenes = [$imagen1, $imagen2, $imagen3, $imagen4, $imagen5]; ?>
                 <li class="list-group">
-                    <?php while ($row2 = mysqli_fetch_array($query3)) {
-                        $imagen1 = $row2['imagen1'];
-                        $imagen2 = $row2['imagen2'];
-                        $imagen3 = $row2['imagen3'];
-                        $imagen4 = $row2['imagen4'];
-                        $imagen5 = $row2['imagen5'];
-                        $imagenes = [$imagen1, $imagen2, $imagen3, $imagen4, $imagen5]; ?>
-                        <div class="card text-center my-3">
-                            <div class="card-header">
-                                <h4><?php echo "$nombre" ?></h4>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title"><?php echo "$asunto" ?></h5>
-                                <p class="card-text h6"><?php echo "$queja" ?></p>
-                                <?php for ($i = 0; $i < count($imagenes); $i++) {
-                                    if ($imagenes[$i] == '') {
-                                        break;
-                                    } else { ?>
-                                        <img src="imagenes/<?php echo $imagenes[$i] ?>" alt="" width=" 15%">
-                                <?php }
-                                } ?>
-                            </div>
-                            <div class="card-footer text-muted">
-                                Hace 1 dia
-                            </div>
+                    <div class="card text-center my-3">
+                        <div class="card-header">
+                            <h4><?php echo "$nombre" ?></h4>
                         </div>
-                    <?php } ?>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo "$asunto" ?></h5>
+                            <p class="card-text h6"><?php echo "$queja" ?></p>
+                            <?php for ($i = 0; $i < count($imagenes); $i++) {
+                                if ($imagenes[$i] == '') {
+                                    break;
+                                } else { ?>
+                                    <img src="imagenes/<?php echo $imagenes[$i] ?>" alt="" width=" 15%">
+                            <?php }
+                            } ?>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Hace 1 dia
+                        </div>
+                    </div>
                 </li>
             <?php } ?>
             </ul>

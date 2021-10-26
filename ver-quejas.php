@@ -6,7 +6,7 @@ require_once 'db/conexion.php';
 function verQuejaUsuario($user, $con)
 {
     $usuario_id = $_SESSION['usuario_id'];
-    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id where q.usuario_id = $usuario_id order by queja_id desc");
+    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id where q.usuario_id = $usuario_id and q.eliminado = 0 order by queja_id desc");
 ?>
     <div class="h1 text-center text-primary">
         <p>QUEJAS DE <?php echo strtoupper($user) ?>:</p>
@@ -66,7 +66,7 @@ function verQuejaUsuario($user, $con)
 
 function verQuejasAdministrador($con)
 {
-    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE estado_id = 1 ORDER BY queja_id DESC");
+    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 1 and q.eliminado = 0 ORDER BY q.queja_id DESC");
 ?>
     <div class="h1 text-center text-primary">
         <p>TODAS LAS QUEJAS</p>
@@ -130,7 +130,7 @@ function verQuejasAdministrador($con)
         </div>
 
         <?php
-        $res = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE estado_id = 2 OR estado_id = 3 ORDER BY queja_id DESC"); ?>
+        $res = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 2 OR q.estado_id = 3 and q.eliminado = 0 ORDER BY q.queja_id DESC"); ?>
         <div class="col-5">
             <div class="h4 text-center">
                 Quejas Resueltas:

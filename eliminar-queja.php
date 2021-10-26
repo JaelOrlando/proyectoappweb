@@ -7,7 +7,8 @@ if (!isset($_GET['id'])) {
 } else {
     $queja_id = $_GET['id'];
     $usuario = $_GET['usuario'];
-    mysqli_query($con, "DELETE FROM quejas WHERE queja_id = $queja_id");
+    mysqli_query($con, "UPDATE quejas SET eliminado = 1 WHERE queja_id = $queja_id");
+    mysqli_query($con, "UPDATE imagenes SET eliminado = 1 WHERE imagen_id = $queja_id");
     header("Location: ver-quejas.php?usuario=$usuario");
 
 ?>

@@ -14,7 +14,7 @@ if (!isset($_SESSION['admin'])) {
 
     <div class="row justify-content-around">
         <?php
-        $query = mysqli_query($con, "SELECT * FROM usuarios u inner join tipos_usuario t on u.tipo_usuario_id = t.tipo_usuario_id where tipo_usuario = 'Usuario'");
+        $query = mysqli_query($con, "SELECT * FROM usuarios u inner join tipos_usuario t on u.tipo_usuario_id = t.tipo_usuario_id where tipo_usuario = 'Usuario' and eliminado = 0");
         while ($row = mysqli_fetch_array($query)) {
             $usuario_id = $row['usuario_id'];
             $nombre = $row['nombre'];

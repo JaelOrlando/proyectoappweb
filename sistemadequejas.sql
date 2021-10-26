@@ -17,6 +17,12 @@ create table estados(
     estado varchar(64) not null
 );
 
+--Crea la tabla filtros
+create table filtros(
+    filtro_id int not null auto_increment primary key,
+    filtro varchar(40) not null
+);
+
 --Crea la tabla imagenes
 create table imagenes(
     imagen_id int not null auto_increment primary key,
@@ -24,14 +30,10 @@ create table imagenes(
     imagen2 varchar(64) null,
     imagen3 varchar(64) null,
     imagen4 varchar(64) null,
-    imagen5 varchar(64) null
+    imagen5 varchar(64) null,
+    eliminado int null
 );
 
---Crea la tabla filtros
-create table filtros(
-    filtro_id int not null auto_increment primary key,
-    filtro varchar(40) not null
-);
 
 --Crea la tabla usuario
 create table usuarios(
@@ -44,6 +46,7 @@ create table usuarios(
     telefono varchar(10) not null,
     contraseña varchar(64) not null,
     tipo_usuario_id int not null,
+    eliminado int null,
     FOREIGN KEY (tipo_usuario_id) REFERENCES tipos_usuario(tipo_usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -58,6 +61,7 @@ create table quejas(
     estado_id int not null,
     usuario_id int not null,
     tipo_usuario_id int not null,
+    eliminado int null,
     FOREIGN KEY (imagen_id) REFERENCES imagenes(imagen_id) ON DELETE CASCADE ON UPDATE CASCADE, 
     FOREIGN KEY (estado_id) REFERENCES estados(estado_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -90,18 +94,35 @@ insert into usuarios (usuario, nombre, paterno, materno, email, telefono, contra
 end;
 //
 
-create trigger insertarUsuario
-before insert on usuarios
-for each row
-begin
-set NEW.tipo_usuario_id = 2;
-end;
-
 create procedure agregarQueja(in asunto varchar(64), in queja varchar(512), in filtro_id int, in imagen_id int, in estado_id int, in usuario_id int, in tipo_usuario_id int)
 begin
 insert into quejas (asunto, queja, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id) values (asunto, queja, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id);
 end;
 //
 
-delimiter ;
+create trigger insertarUsuario
+before insert on usuarios
+for each row
+begin
+set NEW.tipo_usuario_id = 2;
+set NEW.eliminado = 0;
+end;
+//
 
+create trigger insertaQueja
+before insert on quejas
+for each row
+begin
+set NEW.eliminado = 0;
+end;
+//
+
+create trigger insertaImagen
+before insert on imagenes
+for each row
+begin
+set NEW.eliminado = 0;
+end;
+//
+
+delimiter ;
