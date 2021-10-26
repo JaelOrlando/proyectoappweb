@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contraseña = $_POST['contraseña'];
     $contraseña = md5($contraseña);
 
-    $query = mysqli_query($con, "SELECT * FROM usuarios where usuario = '$usuario' AND contraseña = '$contraseña';");
+    $query = mysqli_query($con, "SELECT * FROM usuarios where usuario = '$usuario' AND contraseña = '$contraseña' and eliminado = 0;");
     while ($row = mysqli_fetch_array($query)) {
         $usuario_id = $row['usuario_id'];
         $nombre = $row['nombre'];
