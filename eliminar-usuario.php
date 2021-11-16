@@ -10,7 +10,7 @@ if (!isset($_GET['id'])) {
     while ($row = mysqli_fetch_array($query)){
         $queja_id = $row['queja_id'];
         $imagen_id = $row['imagen_id'];
-        mysqli_query($con, "UPDATE quejas SET eliminado = 1 where queja_id = $queja_id");
+        mysqli_query($con, "UPDATE queja SET eliminado = 1 where q_id = $queja_id");
         mysqli_query($con, "UPDATE imagenes SET eliminado = 1 where imagen_id = $imagen_id");
     }
     header("Location: ver-usuarios.php");

@@ -8,12 +8,17 @@ date_default_timezone_set('America/Mexico_City');
 function verQuejaUsuario($user, $con)
 {
     $usuario_id = $_SESSION['usuario_id'];
-    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id where q.usuario_id = $usuario_id and q.eliminado = 0 order by fecha desc");
+    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id inner join queja qu on q.q_id = qu.q_id where q.usuario_id = $usuario_id and qu.eliminado = 0 order by fecha desc");
 ?>
     <div class="h1 text-center text-primary">
         <p>QUEJAS DE <?php echo strtoupper($user) ?>:</p>
     </div>
-    <ul class=" h4 list-group mt-5 rounded">
+    <div class="text-center h4">
+        <div class="btn btn-dark rouded-pill">
+            <a href="restablecerquejas.php" class="text-warning">Restablecer Quejas</a>
+        </div>
+    </div>
+    <ul class=" h4 list-group mt-2 rounded">
         <?php if (mysqli_num_rows($query) == 0) { ?>
             <div class="text-center h3" style="color: red;">
                 <p>No hay Quejas</p>
@@ -69,7 +74,7 @@ function verQuejaUsuario($user, $con)
 
 function verQuejasAdministrador($con)
 {
-    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 1 and q.eliminado = 0 and q.filtro_id = 1 ORDER BY fecha DESC");
+    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id inner join queja qu on q.q_id = qu.q_id WHERE q.estado_id = 1 and qu.eliminado = 0 and q.filtro_id = 1 ORDER BY fecha DESC");
 ?>
     <div class="h1 text-center text-primary">
         <p>TODAS LAS QUEJAS</p>
@@ -133,7 +138,7 @@ function verQuejasAdministrador($con)
         </div>
 
         <?php
-        $res = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 2 OR q.estado_id = 3 and q.eliminado = 0 or q.filtro_id = 2 ORDER BY fecha DESC"); ?>
+        $res = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id inner join queja qu on q.q_id = qu.q_id WHERE q.estado_id = 2 or q.estado_id = 3 or q.filtro_id = 2 and qu.eliminado = 0 ORDER BY qu.fecha DESC"); ?>
         <div class="col-5">
             <div class="h4 text-center">
                 Quejas Resueltas:

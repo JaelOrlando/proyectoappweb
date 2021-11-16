@@ -1,5 +1,5 @@
 <?php
-$title = "Usuarios";
+$title = "Restablecer Usuarios";
 require_once 'includes/header.php';
 require_once 'db/conexion.php';
 
@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     while ($row = mysqli_fetch_array($query)) {
         $queja_id = $row['queja_id'];
         $imagen_id = $row['imagen_id'];
-        mysqli_query($con, "UPDATE quejas SET eliminado = 0 where queja_id = $queja_id");
+        mysqli_query($con, "UPDATE queja SET eliminado = 0 where q_id = $queja_id");
         mysqli_query($con, "UPDATE imagenes SET eliminado = 0 where imagen_id = $imagen_id");
     }
     header("Location: restablecerusuarios.php");

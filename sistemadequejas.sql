@@ -34,6 +34,15 @@ create table imagenes(
     eliminado int null
 );
 
+--Crea la tabla quejas
+create table queja(
+    q_id int not null auto_increment primary key,
+    asunto varchar(64) null,
+    queja varchar(512) null,
+    respuesta varchar(255) null,
+    eliminado int null,
+    fecha timestamp
+);
 
 --Crea la tabla usuario
 create table usuarios(
@@ -53,22 +62,20 @@ create table usuarios(
 --Crea la tabla quejas
 create table quejas(
     queja_id int not null auto_increment primary key,
-    asunto varchar(64) null,
-    queja varchar(512) null,
-    respuesta varchar(255) null,
+    q_id int not null,
     filtro_id int not null,
     imagen_id int null,
     estado_id int not null,
     usuario_id int not null,
     tipo_usuario_id int not null,
-    eliminado int null,
-    fecha timestamp,
+    FOREIGN KEY (q_id) REFERENCES queja(q_id) ON DELETE CASCADE ON UPDATE CASCADE, 
     FOREIGN KEY (imagen_id) REFERENCES imagenes(imagen_id) ON DELETE CASCADE ON UPDATE CASCADE, 
     FOREIGN KEY (estado_id) REFERENCES estados(estado_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (filtro_id) REFERENCES filtros(filtro_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (tipo_usuario_id) REFERENCES tipos_usuario(tipo_usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 --Inserta datos en la tabla tipos usuario
 insert into tipos_usuario (tipo_usuario) VALUES ('Anonimo');
@@ -96,9 +103,9 @@ insert into usuarios (usuario, nombre, paterno, materno, email, telefono, contra
 end;
 //
 
-create procedure agregarQueja(in asunto varchar(64), in queja varchar(512), in filtro_id int, in imagen_id int, in estado_id int, in usuario_id int, in tipo_usuario_id int)
+create procedure agregarQueja(in q_id int, in filtro_id int, in imagen_id int, in estado_id int, in usuario_id int, in tipo_usuario_id int)
 begin
-insert into quejas (asunto, queja, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id) values (asunto, queja, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id);
+insert into quejas (q_id, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id) values (q_id, filtro_id, imagen_id, estado_id, usuario_id, tipo_usuario_id);
 end;
 //
 
@@ -113,7 +120,7 @@ end;
 
 
 create trigger insertaQueja
-before insert on quejas
+before insert on queja
 for each row
 begin
 set NEW.eliminado = 0;
@@ -121,7 +128,7 @@ end;
 //
 
 create trigger actualizaQueja
-before update on quejas
+before update on queja
 for each row
 begin
 set NEW.fecha = now();

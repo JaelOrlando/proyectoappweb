@@ -13,6 +13,7 @@ if (isset($_POST['enviar'])) {
     $groserias = ['puto', 'pendejo', 'idiota', 'madre', 'inutil', 'baboso', 'mames', 'estupido', 'tonto', 'pedo', 'culo', 'culera', 'puta', 'verga', 'maricon', 'pinche', 'huevon', 'huevos', 'tarado', 'wey'];
 
     $quejatmp = $queja;
+    $quejaori = $queja;
     for ($j = 0; $j < count($groserias); $j++) {
         $len = strlen($groserias[$j]);
         $queja = str_replace($groserias[$j], str_repeat('*', $len), strtolower($queja));
@@ -51,6 +52,13 @@ if (isset($_POST['enviar'])) {
         $imagen_id = $row['imagen_id'];
     }
 
+    mysqli_query($con, "INSERT INTO queja (asunto, queja) VALUES ('$asunto', '$queja');");
+
+    $query = mysqli_query($con, "SELECT q_id  from queja;");
+    while ($row = mysqli_fetch_array($query)) {
+        $q_id = $row['q_id'];
+    }
+
     $query2 = mysqli_query($con, "SELECT tipo_usuario_id from usuarios where usuario_id = $usuario");
     while ($row = mysqli_fetch_array($query2)) {
         $tipo_usuario_id = $row['tipo_usuario_id'];
@@ -66,7 +74,7 @@ if (isset($_POST['enviar'])) {
         }
     }
 
-    mysqli_query($con, "call agregarQueja('$asunto', '$queja', $fil, $imagen_id, $estado, $usuario, $tipo_usuario_id);");
+    mysqli_query($con, "call agregarQueja($q_id, $fil, $imagen_id, $estado, $usuario, $tipo_usuario_id);");
 ?>
     <div class="alert alert-success text-center" role="alert">
         Gracias por sus comentarios!!

@@ -3,20 +3,20 @@ $title = "Estadisticas";
 require_once 'includes/header.php';
 require_once 'db/conexion.php';
 
-$result = mysqli_query($con, "SELECT * FROM quejas WHERE eliminado = 0");
+$result = mysqli_query($con, "SELECT * FROM queja WHERE eliminado = 0");
 $numquejas = mysqli_num_rows($result);
 
 $porcentaje = 100/$numquejas;
 
-$result = mysqli_query($con, "SELECT * FROM quejas WHERE estado_id = 1 AND eliminado = 0");
+$result = mysqli_query($con, "SELECT * FROM queja q inner join  quejas qu on q.q_id = qu.q_id WHERE estado_id = 1 AND eliminado = 0");
 $numpendientes = mysqli_num_rows($result);
 $numpendientes=$porcentaje*$numpendientes;
 
-$result = mysqli_query($con, "SELECT * FROM quejas WHERE estado_id = 2 AND eliminado = 0");
+$result = mysqli_query($con, "SELECT * FROM queja q inner join  quejas qu on q.q_id = qu.q_id WHERE estado_id = 2 AND eliminado = 0");
 $numdescartadas = mysqli_num_rows($result);
 $numdescartadas=$porcentaje*$numdescartadas;
 
-$result = mysqli_query($con, "SELECT * FROM quejas WHERE estado_id = 3 AND eliminado = 0");
+$result = mysqli_query($con, "SELECT * FROM queja q inner join  quejas qu on q.q_id = qu.q_id WHERE estado_id = 3 AND eliminado = 0");
 $numresueltas = mysqli_num_rows($result);
 $numresueltas=$porcentaje*$numresueltas;
 

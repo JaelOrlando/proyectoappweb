@@ -7,7 +7,7 @@ if (!isset($_GET['id'])) {
     echo "<h1 class='text-danger'>Por favor inicia sesión</h1>";
 } else {
     $idqueja = $_GET['id'];
-    $query = mysqli_query($con, "SELECT respuesta, estado_id FROM quejas WHERE queja_id = $idqueja");
+    $query = mysqli_query($con, "SELECT qu.respuesta, q.estado_id FROM quejas q inner join queja qu on q.q_id = qu.q_id WHERE queja_id = $idqueja");
     while ($row = mysqli_fetch_array($query)) {
         $respuesta = $row['respuesta'];
         $estado_id = $row['estado_id'];

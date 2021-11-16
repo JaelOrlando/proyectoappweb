@@ -43,7 +43,7 @@ require_once 'db/conexion.php';
 
 <?php }
 
-$query = mysqli_query($con, "SELECT * FROM quejas q INNER JOIN usuarios u on q.usuario_id = u.usuario_id INNER JOIN imagenes i on q.imagen_id = i.imagen_id WHERE q.eliminado = 0 and q.filtro_id = 1 ORDER BY queja_id DESC");
+$query = mysqli_query($con, "SELECT * FROM quejas q INNER JOIN usuarios u on q.usuario_id = u.usuario_id INNER JOIN imagenes i on q.imagen_id = i.imagen_id INNER JOIN queja qu on q.q_id = qu.q_id WHERE qu.eliminado = 0 and q.filtro_id = 1 ORDER BY queja_id DESC");
 if (!isset($_SESSION['admin'])) { ?>
     <ul class=" h4 list-group mt-5 rounded">
         <?php if (mysqli_num_rows($query) == 0) { ?>
@@ -51,7 +51,6 @@ if (!isset($_SESSION['admin'])) { ?>
                 <p>No hay Quejas</p>
             </div>
         <?php } else { ?>
-
             <?php
             while ($row = mysqli_fetch_array($query)) {
                 $usuario_id = $row['usuario_id'];

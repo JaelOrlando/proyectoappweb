@@ -7,7 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $respuesta = $_POST['respuesta'];
     $idqueja = $_GET['id'];
 
-    mysqli_query($con, "UPDATE quejas SET respuesta = '$respuesta', estado_id = 3 WHERE queja_id = $idqueja");
+    mysqli_query($con, "UPDATE queja SET respuesta = '$respuesta' WHERE q_id = $idqueja");
+    mysqli_query($con, "UPDATE quejas SET estado_id = 3 WHERE queja_id = $idqueja");
     echo '<div class="alert alert-success" role="alert"> Respuesta enviada</div>';
 }
 
@@ -24,7 +25,7 @@ if (!isset($_GET['id'])) {
         </div>
         <div class="container mb-3">
             <div class="text-center">
-                <input type="submit" class="btn btn-success" value="Enviar Queja">
+                <input type="submit" class="btn btn-success" value="Enviar Respuesta">
             </div>
         </div>
     </form>
