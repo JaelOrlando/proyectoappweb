@@ -9,7 +9,23 @@ $usuario = $_SESSION['usuario'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $asunto = $_POST['asunto'];
     $queja = $_POST['queja'];
-    mysqli_query($con, "UPDATE quejas SET asunto = '$asunto', queja = '$queja' WHERE queja_id = $id");
+    $groserias = ['puto', 'pendejo', 'idiota', 'madre', 'inutil', 'baboso', 'mames', 'estupido', 'tonto', 'pedo', 'culo', 'culera', 'puta', 'verga', 'maricon', 'pinche', 'huevon', 'huevos', 'tarado', 'wey'];
+    
+    $quejatmp = $queja;
+    for ($j = 0; $j < count($groserias); $j++) {
+        $len = strlen($groserias[$j]);
+        $queja = str_replace($groserias[$j], str_repeat('*', $len), strtolower($queja));
+    }
+    $quejafil = $queja;
+
+    if (strcmp($quejatmp, $quejafil) != 0) {
+        $fil = 2;
+    } else {
+        $fil = 1;
+        $estado = 1;
+    }
+
+    mysqli_query($con, "UPDATE quejas SET asunto = '$asunto', queja = '$queja', filtro_id = $fil, estado_id = $estado WHERE queja_id = $id");
     header("Location: ver-quejas.php?usuario=$usuario");
 }
 

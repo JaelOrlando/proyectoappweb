@@ -2,11 +2,13 @@
 $title = "Ver Quejas";
 require_once 'includes/header.php';
 require_once 'db/conexion.php';
+date_default_timezone_set('America/Mexico_City');
+
 
 function verQuejaUsuario($user, $con)
 {
     $usuario_id = $_SESSION['usuario_id'];
-    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id where q.usuario_id = $usuario_id and q.eliminado = 0 order by queja_id desc");
+    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id where q.usuario_id = $usuario_id and q.eliminado = 0 order by fecha desc");
 ?>
     <div class="h1 text-center text-primary">
         <p>QUEJAS DE <?php echo strtoupper($user) ?>:</p>
@@ -16,20 +18,21 @@ function verQuejaUsuario($user, $con)
             <div class="text-center h3" style="color: red;">
                 <p>No hay Quejas</p>
             </div>
-        <?php } else { ?>
-            <?php while ($row = mysqli_fetch_array($query)) {
+            <?php } else {
+            while ($row = mysqli_fetch_array($query)) {
                 $queja_id = $row['queja_id'];
                 $usuario_id = $row['usuario_id'];
                 $asunto = $row['asunto'];
                 $queja = $row['queja'];
-                $imagen_id = $row['imagen_id'];
                 $nombre = $row['nombre'];
+                $fecha = $row['fecha'];
                 $imagen1 = $row['imagen1'];
                 $imagen2 = $row['imagen2'];
                 $imagen3 = $row['imagen3'];
                 $imagen4 = $row['imagen4'];
                 $imagen5 = $row['imagen5'];
-                $imagenes = [$imagen1, $imagen2, $imagen3, $imagen4, $imagen5]; ?>
+                $imagenes = [$imagen1, $imagen2, $imagen3, $imagen4, $imagen5];
+            ?>
                 <li class="list-group">
                     <div class="card text-center my-3">
                         <div class="card-header">
@@ -53,7 +56,7 @@ function verQuejaUsuario($user, $con)
                         </div>
                         <div class="card-footer text-dark  bg-secondary">
                             <div class="mb-2">
-                                Hace 1 dia
+                                <?php echo $fecha ?>
                             </div>
                         </div>
                     </div>
@@ -66,7 +69,7 @@ function verQuejaUsuario($user, $con)
 
 function verQuejasAdministrador($con)
 {
-    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 1 and q.eliminado = 0 ORDER BY q.queja_id DESC");
+    $query = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 1 and q.eliminado = 0 and q.filtro_id = 1 ORDER BY fecha DESC");
 ?>
     <div class="h1 text-center text-primary">
         <p>TODAS LAS QUEJAS</p>
@@ -87,8 +90,8 @@ function verQuejasAdministrador($con)
                         $usuario_id = $row['usuario_id'];
                         $asunto = $row['asunto'];
                         $queja = $row['queja'];
-                        $imagen_id = $row['imagen_id'];
                         $nombre = $row['nombre'];
+                        $fecha = $row['fecha'];
                         $imagen1 = $row['imagen1'];
                         $imagen2 = $row['imagen2'];
                         $imagen3 = $row['imagen3'];
@@ -118,7 +121,7 @@ function verQuejasAdministrador($con)
                                 </div>
                                 <div class="card-footer text-dark  bg-secondary">
                                     <div class="mb-2">
-                                        Hace 1 dia
+                                        <?php echo $fecha ?>
                                     </div>
 
                                 </div>
@@ -130,7 +133,7 @@ function verQuejasAdministrador($con)
         </div>
 
         <?php
-        $res = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 2 OR q.estado_id = 3 and q.eliminado = 0 ORDER BY q.queja_id DESC"); ?>
+        $res = mysqli_query($con, "SELECT * FROM quejas q inner join usuarios u on q.usuario_id = u.usuario_id inner join imagenes i on q.imagen_id = i.imagen_id WHERE q.estado_id = 2 OR q.estado_id = 3 and q.eliminado = 0 or q.filtro_id = 2 ORDER BY fecha DESC"); ?>
         <div class="col-5">
             <div class="h4 text-center">
                 Quejas Resueltas:
@@ -148,9 +151,9 @@ function verQuejasAdministrador($con)
                         $queja = $row['queja'];
                         $respuesta = $row['respuesta'];
                         $filtro_id = $row['filtro_id'];
-                        $imagen_id = $row['imagen_id'];
                         $estado = $row['estado_id'];
                         $nombre = $row['nombre'];
+                        $fecha = $row['fecha'];
                         $imagen1 = $row['imagen1'];
                         $imagen2 = $row['imagen2'];
                         $imagen3 = $row['imagen3'];
@@ -206,7 +209,7 @@ function verQuejasAdministrador($con)
                                 </div>
                                 <div class="card-footer text-dark  bg-secondary">
                                     <div class="mb-2">
-                                        Hace 1 dia
+                                        <?php echo $fecha ?>
                                     </div>
 
                                 </div>

@@ -3,6 +3,19 @@ $title = "Usuarios";
 require_once 'includes/header.php';
 require_once 'db/conexion.php';
 
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    mysqli_query($con, "UPDATE usuarios SET eliminado = 0 where usuario_id = $id");
+    $query = mysqli_query($con, "SELECT q.queja_id, i.imagen_id FROM quejas q INNER JOIN imagenes i ON q.imagen_id = i.imagen_id where q.usuario_id = $id");
+    while ($row = mysqli_fetch_array($query)) {
+        $queja_id = $row['queja_id'];
+        $imagen_id = $row['imagen_id'];
+        mysqli_query($con, "UPDATE quejas SET eliminado = 0 where queja_id = $queja_id");
+        mysqli_query($con, "UPDATE imagenes SET eliminado = 0 where imagen_id = $imagen_id");
+    }
+    header("Location: restablecerusuarios.php");
+}
+
 if (!isset($_SESSION['admin'])) {
     echo "<h1 class='text-danger'>Por favor inicia sesión</h1>";
 } else {
@@ -11,18 +24,13 @@ if (!isset($_SESSION['admin'])) {
     <div class="h1 text-center text-primary">
         USUARIOS REGISTRADOS
     </div>
-    <div class="text-center h4">
-        <div class="btn btn-dark rouded-pill">
-            <a href="restablecerusuarios.php" class="text-warning">Restablecer Usuarios</a>
-        </div>
-    </div>
 
     <div class="row justify-content-around">
         <?php
-        $query = mysqli_query($con, "SELECT * FROM usuarios u inner join tipos_usuario t on u.tipo_usuario_id = t.tipo_usuario_id where tipo_usuario = 'Usuario' and eliminado = 0");
+        $query = mysqli_query($con, "SELECT * FROM usuarios u inner join tipos_usuario t on u.tipo_usuario_id = t.tipo_usuario_id where t.tipo_usuario = 'Usuario' and u.eliminado = 1");
         if (mysqli_num_rows($query) == 0) { ?>
             <div class="text-center h3" style="color: red;">
-                <p>No hay ningun usuario registrado</p>
+                <p>No hay usuarios eliminados</p>
             </div>
             <?php } else {
             while ($row = mysqli_fetch_array($query)) {
@@ -45,7 +53,7 @@ if (!isset($_SESSION['admin'])) {
                             <p class="card-text"><b>Email:</b> <?php echo $email ?></p>
                             <p class="card-text"><b>Telefono:</b> <?php echo $telefono ?></p>
                             <div class="text-center">
-                                <a onclick="return confirm('¿Seguro que quieres eliminar el usuario');" href="eliminar-usuario.php?id=<?php echo $usuario_id ?>" class="btn btn-danger rounded-pill">Eliminar</a>
+                                <a onclick="return confirm('¿Seguro que quieres restablecer el usuario');" href="restablecerusuarios.php?id=<?php echo $usuario_id ?>" class="btn btn-danger rounded-pill">Restablecer</a>
                             </div>
 
                         </div>

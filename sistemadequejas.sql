@@ -62,6 +62,7 @@ create table quejas(
     usuario_id int not null,
     tipo_usuario_id int not null,
     eliminado int null,
+    fecha timestamp,
     FOREIGN KEY (imagen_id) REFERENCES imagenes(imagen_id) ON DELETE CASCADE ON UPDATE CASCADE, 
     FOREIGN KEY (estado_id) REFERENCES estados(estado_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -84,8 +85,9 @@ insert into filtros (filtro) VALUES ('Sin Groserias');
 insert into filtros (filtro) VALUES ('Con Groserias');
 
 --Inserta datos en la tabla usuarios
-insert into usuarios ( usuario, nombre, paterno, materno, email, telefono, contraseña, tipo_usuario_id) VALUES ('administrador','Jael Orlando','Osorio','Pérez','jael256or@gmail.com','1234567890','f62d58c40d7280925378f970abed682d',3);
-insert into usuarios ( nombre, usuario, paterno, materno, email, telefono, contraseña, tipo_usuario_id ) VALUES ( 'Anonimo', 'Anonimo', '', '', '', '', '', 1 );
+insert into usuarios ( usuario, nombre, paterno, materno, email, telefono, contraseña, tipo_usuario_id, eliminado) VALUES ('administrador','Jael Orlando','Osorio','Pérez','jael256or@gmail.com','1234567890','f62d58c40d7280925378f970abed682d', 3, 0);
+
+insert into usuarios ( nombre, usuario, paterno, materno, email, telefono, contraseña, tipo_usuario_id ) VALUES ( 'Anonimo', 'Anonimo', '', '', '', '', '', 1);
 
 delimiter //
 create procedure agregarUsuario(in usuario varchar(64), in nombre varchar(64), in paterno varchar(64), in materno varchar(64), in email varchar(64), in telefono varchar(10), in contraseña varchar(64), in tipo_usuario_id int)
@@ -109,11 +111,20 @@ set NEW.eliminado = 0;
 end;
 //
 
+
 create trigger insertaQueja
 before insert on quejas
 for each row
 begin
 set NEW.eliminado = 0;
+end;
+//
+
+create trigger actualizaQueja
+before update on quejas
+for each row
+begin
+set NEW.fecha = now();
 end;
 //
 

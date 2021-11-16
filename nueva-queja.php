@@ -9,6 +9,22 @@ if (isset($_POST['enviar'])) {
     $usuario = $_GET['id'];
     $target_dir = 'imagenes/';
 
+
+    $groserias = ['puto', 'pendejo', 'idiota', 'madre', 'inutil', 'baboso', 'mames', 'estupido', 'tonto', 'pedo', 'culo', 'culera', 'puta', 'verga', 'maricon', 'pinche', 'huevon', 'huevos', 'tarado', 'wey'];
+
+    $quejatmp = $queja;
+    for ($j = 0; $j < count($groserias); $j++) {
+        $len = strlen($groserias[$j]);
+        $queja = str_replace($groserias[$j], str_repeat('*', $len), strtolower($queja));
+    }
+    $quejafil = $queja;
+
+    if (strcmp($quejatmp, $quejafil) != 0) {
+        $fil = 2;
+    } else {
+        $fil = 1;
+    }
+
     if (isset($_FILES['imagen'])) {
         $imagenes = $_FILES['imagen'];
         for ($i = 0; $i < 5; $i++) {
@@ -43,21 +59,14 @@ if (isset($_POST['enviar'])) {
     if ($usuario == 2) {
         $estado = 2;
     } elseif ($usuario > 2) {
-        $estado = 1;
+        if ($fil == 1) {
+            $estado = 1;
+        } else {
+            $estado = 2;
+        }
     }
 
-    mysqli_query($con, "call agregarQueja('$asunto', '$queja', 1, $imagen_id, $estado, $usuario, $tipo_usuario_id);");
-    /*
-    $groserias = ['puto', 'pendejo', 'idiota', 'chinga tu madre'];
-    $gro = mysqli_query($con, "SELECT filtro_id FROM quejas where usuario_id = $usuario");
-    while ($row = mysqli_fetch_array($gro)) {
-        $filtro = $row['filtro_id'];
-        
-        for ($i=0; $i < count($groserias); $i++) { 
-
-        }
-    }*/
-
+    mysqli_query($con, "call agregarQueja('$asunto', '$queja', $fil, $imagen_id, $estado, $usuario, $tipo_usuario_id);");
 ?>
     <div class="alert alert-success text-center" role="alert">
         Gracias por sus comentarios!!
@@ -106,7 +115,6 @@ if (!isset($_SESSION['usuario'])) {
         echo "<h1 class='text-danger'>Por favor inicia sesión</h1>";
 } else {
     nuevaQueja($_GET['id']);
-
     ?>
 
 
