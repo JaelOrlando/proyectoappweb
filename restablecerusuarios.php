@@ -22,7 +22,7 @@ if (!isset($_SESSION['admin'])) {
 
 ?>
     <div class="h1 text-center text-primary">
-        USUARIOS REGISTRADOS
+        USUARIOS ELIMINADOS
     </div>
 
     <div class="row justify-content-around">
@@ -35,6 +35,7 @@ if (!isset($_SESSION['admin'])) {
             <?php } else {
             while ($row = mysqli_fetch_array($query)) {
                 $usuario_id = $row['usuario_id'];
+                $usuario = $row['usuario'];
                 $nombre = $row['nombre'];
                 $paterno = $row['paterno'];
                 $materno = $row['materno'];
@@ -46,14 +47,14 @@ if (!isset($_SESSION['admin'])) {
                 <div class="col-3 my-3 mx-1 ">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body btn-secondary">
-                            <h3 class="card-title text-center"><?php echo "$tipo_usuario $usuario_id" ?></h3>
+                            <h3 class="card-title text-center"><?php echo "$usuario" ?></h3>
                             <p class="card-text"><b>Nombre</b> <?php echo $nombre ?></p>
                             <p class="card-text"><b>Apellido Paterno:</b> <?php echo $paterno ?></p>
                             <p class="card-text"><b>Apellido Materno:</b> <?php echo $materno ?></p>
                             <p class="card-text"><b>Email:</b> <?php echo $email ?></p>
                             <p class="card-text"><b>Telefono:</b> <?php echo $telefono ?></p>
                             <div class="text-center">
-                                <a onclick="return confirm('¿Seguro que quieres restablecer el usuario');" href="restablecerusuarios.php?id=<?php echo $usuario_id ?>" class="btn btn-danger rounded-pill">Restablecer</a>
+                                <a onclick="return confirm('¿Seguro que quieres restablecer el usuario');" href="restablecerusuarios.php?id=<?php echo $usuario_id ?>" class="btn btn-info rounded-pill">Restablecer</a>
                             </div>
 
                         </div>

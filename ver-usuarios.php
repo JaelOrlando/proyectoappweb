@@ -27,6 +27,7 @@ if (!isset($_SESSION['admin'])) {
             <?php } else {
             while ($row = mysqli_fetch_array($query)) {
                 $usuario_id = $row['usuario_id'];
+                $usuario = $row['usuario'];
                 $nombre = $row['nombre'];
                 $paterno = $row['paterno'];
                 $materno = $row['materno'];
@@ -38,7 +39,7 @@ if (!isset($_SESSION['admin'])) {
                 <div class="col-3 my-3 mx-1 ">
                     <div class="card" style="width: 18rem;">
                         <div class="card-body btn-secondary">
-                            <h3 class="card-title text-center"><?php echo "$tipo_usuario $usuario_id" ?></h3>
+                            <h3 class="card-title text-center"><?php echo "$usuario" ?></h3>
                             <p class="card-text"><b>Nombre</b> <?php echo $nombre ?></p>
                             <p class="card-text"><b>Apellido Paterno:</b> <?php echo $paterno ?></p>
                             <p class="card-text"><b>Apellido Materno:</b> <?php echo $materno ?></p>
