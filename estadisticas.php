@@ -30,6 +30,7 @@ $usuariosa = $pusuarios*$usuariosa;
 
 $result = mysqli_query($con, "SELECT * FROM usuarios WHERE tipo_usuario_id = 2 AND eliminado = 1");
 $usuariose = mysqli_num_rows($result);
+$usuariosee = mysqli_num_rows($result);
 $usuariose = $pusuarios*$usuariose;
 
 ?>
@@ -55,7 +56,7 @@ $usuariose = $pusuarios*$usuariose;
 
 <br><br><br>
 <div class="h4 text-center">
-    Numero de Usuarios: <?php echo $numusuarios ?>
+    Numero de Usuarios: <?php echo $numusuarios+$usuariosee ?>
 </div>
 <br>
 <div class="progress">
