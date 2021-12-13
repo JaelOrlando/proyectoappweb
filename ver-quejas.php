@@ -154,6 +154,7 @@ function verQuejasAdministrador($con)
                         $usuario_id = $row['usuario_id'];
                         $asunto = $row['asunto'];
                         $queja = $row['queja'];
+                        $quejaori = $row['quejaori'];
                         $respuesta = $row['respuesta'];
                         $filtro_id = $row['filtro_id'];
                         $estado = $row['estado_id'];
@@ -172,7 +173,7 @@ function verQuejasAdministrador($con)
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo "$asunto" ?></h5>
-                                    <p class="card-text h6"><?php echo "$queja" ?></p>
+                                    <p class="card-text h6"><?php echo "$quejaori" ?></p>
                                     <?php for ($i = 0; $i < count($imagenes); $i++) {
                                         if ($imagenes[$i] == '') {
                                             break;

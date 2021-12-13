@@ -39,6 +39,7 @@ create table queja(
     q_id int not null auto_increment primary key,
     asunto varchar(64) null,
     queja varchar(512) null,
+    quejaori varchar(512) null,
     respuesta varchar(255) null,
     eliminado int null,
     fecha timestamp

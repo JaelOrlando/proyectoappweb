@@ -52,7 +52,7 @@ if (isset($_POST['enviar'])) {
         $imagen_id = $row['imagen_id'];
     }
 
-    mysqli_query($con, "INSERT INTO queja (asunto, queja) VALUES ('$asunto', '$queja');");
+    mysqli_query($con, "INSERT INTO queja (asunto, queja, quejaori) VALUES ('$asunto', '$queja', '$quejaori');");
 
     $query = mysqli_query($con, "SELECT q_id  from queja;");
     while ($row = mysqli_fetch_array($query)) {
